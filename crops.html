@@ -276,6 +276,33 @@
       </button>
     </div>
 
+    <!-- ═══════════ WIKIPEDIA MODAL ═══════════ -->
+    <dialog id="wikiModal" class="bg-surface-container-lowest text-on-surface rounded-2xl shadow-2xl p-0 w-[90vw] max-w-4xl max-h-[85vh] mx-auto backdrop:bg-black/50 backdrop:backdrop-blur-sm m-auto">
+      <div class="flex flex-col h-full max-h-[85vh]">
+        <!-- Header -->
+        <header class="flex justify-between items-center p-md border-b border-outline-variant bg-surface-container-low sticky top-0 z-10 rounded-t-2xl">
+          <div class="flex items-center gap-sm">
+            <span class="material-symbols-outlined text-primary text-[28px]">energy_savings_leaf</span>
+            <h2 id="modalTitle" class="font-headline-md text-headline-sm m-0">Crop Title</h2>
+          </div>
+          <button id="closeModalBtn" class="p-base hover:bg-surface-container-high rounded-full transition-colors flex items-center justify-center">
+            <span class="material-symbols-outlined text-on-surface-variant">close</span>
+          </button>
+        </header>
+        
+        <!-- Content -->
+        <div class="p-lg overflow-y-auto flex-grow relative bg-surface-container-lowest rounded-b-2xl">
+          <div id="modalLoading" class="hidden absolute inset-0 flex flex-col items-center justify-center bg-surface-container-lowest z-10 gap-md rounded-b-2xl">
+            <div class="w-12 h-12 border-4 border-outline-variant border-t-primary rounded-full animate-spin"></div>
+            <p class="font-data-mono text-on-surface-variant animate-pulse">Fetching intelligence from Wikipedia...</p>
+          </div>
+          <article id="modalContent" class="prose prose-lg dark:prose-invert max-w-none font-body-lg text-on-surface-variant leading-relaxed">
+            <!-- Wikipedia content injected here -->
+          </article>
+        </div>
+      </div>
+    </dialog>
+
   </div>
 </main>
 
@@ -502,6 +529,63 @@ window.resetFilters = () => {
 chipBtns[0].classList.add("bg-primary", "text-on-primary", "border-primary");
 chipBtns[0].classList.remove("border-outline-variant", "text-on-surface-variant");
 render(cropDatabase);
+
+// ── Wikipedia Modal Logic ──
+const wikiModal = document.getElementById("wikiModal");
+const modalTitle = document.getElementById("modalTitle");
+const modalContent = document.getElementById("modalContent");
+const modalLoading = document.getElementById("modalLoading");
+const closeModalBtn = document.getElementById("closeModalBtn");
+
+// Close modal handlers
+closeModalBtn.addEventListener("click", () => wikiModal.close());
+wikiModal.addEventListener("click", (e) => {
+  if (e.target === wikiModal) wikiModal.close(); // Clicked on backdrop
+});
+
+async function fetchWikipediaSummary(cropName) {
+  try {
+    // We request extracts. HTML formatting.
+    const queryTerm = encodeURIComponent(cropName.split(' ')[0]); // Simple fallback to first word
+    const url = `https://en.wikipedia.org/w/api.php?action=query&prop=extracts&exintro=false&explaintext=false&titles=${queryTerm}&format=json&origin=*`;
+    const response = await fetch(url);
+    const data = await response.json();
+    const pages = data.query.pages;
+    const pageId = Object.keys(pages)[0];
+    
+    if (pageId === "-1" || !pages[pageId].extract) {
+      return `<p>We couldn't find a comprehensive summary for <strong>${cropName}</strong> on Wikipedia. The crop might be indexed under a different botanical name or region-specific term.</p>`;
+    }
+    
+    // Some wiki pages are short stubs or disambiguation pages, but we return whatever we get.
+    return pages[pageId].extract;
+  } catch (err) {
+    return `<p class="text-error">Error fetching intelligence data. Please check your network connection.</p>`;
+  }
+}
+
+// Attach click event to cards via event delegation on grid
+grid.addEventListener("click", async (e) => {
+  const card = e.target.closest(".crop-card");
+  if (!card) return;
+  
+  const cropName = card.querySelector("h3").textContent;
+  
+  // Show modal and reset state
+  modalTitle.textContent = cropName;
+  modalContent.innerHTML = "";
+  modalLoading.classList.remove("hidden");
+  modalLoading.classList.add("flex");
+  wikiModal.showModal();
+  
+  // Fetch data
+  const htmlContent = await fetchWikipediaSummary(cropName);
+  
+  modalContent.innerHTML = htmlContent;
+  modalLoading.classList.remove("flex");
+  modalLoading.classList.add("hidden");
+});
+
 </script>
 
 </body>
