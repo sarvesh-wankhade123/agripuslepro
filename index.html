@@ -1,0 +1,357 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>AgriPulse Pro - Executive Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed": "#cde5ff",
+                    "on-tertiary-fixed-variant": "#673a39",
+                    "on-secondary-container": "#004972",
+                    "surface-variant": "#e2e3e0",
+                    "error-container": "#ffdad6",
+                    "inverse-on-surface": "#f0f1ee",
+                    "on-background": "#1a1c1a",
+                    "on-tertiary-container": "#d29895",
+                    "inverse-primary": "#a5d0b9",
+                    "on-surface-variant": "#414844",
+                    "secondary-fixed-dim": "#94ccff",
+                    "secondary": "#006399",
+                    "surface-container-highest": "#e2e3e0",
+                    "primary": "#012d1d",
+                    "surface-container-high": "#e8e8e5",
+                    "outline-variant": "#c1c8c2",
+                    "on-primary-container": "#86af99",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "primary-fixed-dim": "#a5d0b9",
+                    "surface-dim": "#dadad7",
+                    "surface-container-low": "#f3f4f1",
+                    "on-primary": "#ffffff",
+                    "outline": "#717973",
+                    "primary-container": "#1b4332",
+                    "error": "#ba1a1a",
+                    "on-error": "#ffffff",
+                    "surface-container": "#eeeeeb",
+                    "tertiary-container": "#5a302f",
+                    "surface-bright": "#f9faf6",
+                    "on-surface": "#1a1c1a",
+                    "on-tertiary-fixed": "#331111",
+                    "surface-container-lowest": "#ffffff",
+                    "inverse-surface": "#2f312f",
+                    "background": "#f9faf6",
+                    "surface-tint": "#3f6653",
+                    "tertiary-fixed-dim": "#f5b7b4",
+                    "surface": "#f9faf6",
+                    "on-secondary-fixed": "#001d32",
+                    "primary-fixed": "#c1ecd4",
+                    "on-primary-fixed": "#002114",
+                    "tertiary-fixed": "#ffdad8",
+                    "on-secondary-fixed-variant": "#004b74",
+                    "secondary-container": "#67bafd",
+                    "on-error-container": "#93000a",
+                    "on-primary-fixed-variant": "#274e3d",
+                    "tertiary": "#401b1b"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "lg": "40px",
+                    "xl": "64px",
+                    "md": "24px",
+                    "base": "8px",
+                    "xs": "4px",
+                    "margin-desktop": "32px",
+                    "margin-mobile": "16px",
+                    "sm": "12px"
+            },
+            "fontFamily": {
+                    "data-mono": ["JetBrains Mono"],
+                    "label-caps": ["Hanken Grotesk"],
+                    "body-lg": ["Hanken Grotesk"],
+                    "display-lg": ["Hanken Grotesk"],
+                    "headline-sm": ["Hanken Grotesk"],
+                    "body-sm": ["Hanken Grotesk"],
+                    "headline-md": ["Hanken Grotesk"],
+                    "body-md": ["Hanken Grotesk"]
+            },
+            "fontSize": {
+                    "data-mono": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .sector-polygon {
+            transition: fill 0.2s, opacity 0.2s;
+            cursor: pointer;
+        }
+        .sector-polygon:hover {
+            opacity: 0.85;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md overflow-x-hidden">
+<script>if(!sessionStorage.getItem("agripulse_user")){window.location.replace("login.html");}</script>
+<header class="bg-surface-bright dark:bg-surface-dim border-b border-outline-variant dark:border-outline fixed top-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16">
+<div class="flex items-center gap-md">
+<span class="text-headline-sm font-headline-sm font-bold text-primary dark:text-primary-fixed">AgriPulse Pro</span>
+</div>
+<nav class="hidden md:flex gap-lg h-full">
+<a class="flex items-center h-full text-primary dark:text-primary-fixed font-bold border-b-2 border-primary" href="index.html">Dashboard</a>
+<a class="flex items-center h-full text-on-surface-variant dark:text-outline hover:bg-surface-container-low transition-colors" href="field_monitoring.html">Field Details</a>
+<a class="flex items-center h-full text-on-surface-variant dark:text-outline hover:bg-surface-container-low transition-colors" href="automated_controls.html">Automation</a>
+<a class="flex items-center h-full text-on-surface-variant dark:text-outline hover:bg-surface-container-low transition-colors" href="analytics_reports.html">Analytics</a>
+</nav>
+<div class="flex items-center gap-base">
+<button class="p-base hover:bg-surface-container-low rounded-full transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+</button>
+<button class="p-base hover:bg-surface-container-low rounded-full transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">help_outline</span>
+</button>
+<img alt="Operator Profile" class="w-8 h-8 rounded-full border border-outline-variant" data-alt="A professional headshot of a middle-aged farm manager in a clean, modern corporate agricultural office environment. The lighting is bright and natural, coming from a large window. He is wearing a minimalist dark green polo shirt that matches the AgriPulse Pro brand colors. The background is softly blurred, showing modern agricultural data screens and architectural details, conveying a mood of reliable expertise and controlled confidence." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBf2GucCvACQ4nZbj5-RipFlrbutYMpbipFph9QL9nYGDStIc2Mz_JySvYy5lWFbW_tdq6W8F-TWhxKDbcxX3u2y6wZaQyXqU3c-QQJw1F8uiqgXHWqSHk6HCzH5lGLKMcG2iLQFef96EIp01ABKT-UWwDOK281Giw38Mhdhvz8F38QFnEI2yc8FBndrutcy3LCItsw1KNhStJDT__ijF0--32NYC6VKIsQlzThAYUgE8zG_vjrPDsRsOILV4Rf5z5LVtHAEKN4xmRR">
+</div>
+</header>
+<aside class="hidden md:flex flex-col h-screen w-64 fixed left-0 top-16 bg-surface-container-low dark:bg-surface-container-highest border-r border-outline-variant dark:border-outline p-base gap-sm z-40">
+<div class="px-base py-md">
+<span class="font-headline-sm text-headline-sm font-bold text-primary dark:text-primary-fixed block">AgriPulse Pro</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">Central Command</span>
+</div>
+<nav class="flex flex-col gap-xs flex-grow">
+<a class="flex items-center gap-sm p-base bg-primary dark:bg-primary-container text-on-primary dark:text-on-primary-container rounded-lg active:scale-95 duration-100 transition-all" href="index.html">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-caps text-label-caps uppercase">Dashboard</span>
+</a>
+<a class="flex items-center gap-sm p-base text-on-surface-variant dark:text-outline hover:bg-surface-container-high transition-all" href="field_monitoring.html">
+<span class="material-symbols-outlined">potted_plant</span>
+<span class="font-label-caps text-label-caps uppercase">Field Details</span>
+</a>
+<a class="flex items-center gap-sm p-base text-on-surface-variant dark:text-outline hover:bg-surface-container-high transition-all" href="automated_controls.html">
+<span class="material-symbols-outlined">precision_manufacturing</span>
+<span class="font-label-caps text-label-caps uppercase">Automation</span>
+</a>
+<a class="flex items-center gap-sm p-base text-on-surface-variant dark:text-outline hover:bg-surface-container-high transition-all" href="analytics_reports.html">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-caps text-label-caps uppercase">Analytics</span>
+</a>
+<a class="flex items-center gap-sm p-base text-on-surface-variant dark:text-outline hover:bg-surface-container-high transition-all" href="crops.html">
+<span class="material-symbols-outlined">agriculture</span>
+<span class="font-label-caps text-label-caps uppercase">Crop Database</span>
+</a>
+<a class="flex items-center gap-sm p-base text-on-surface-variant dark:text-outline hover:bg-surface-container-high transition-all" href="farm_settings.html">
+<span class="material-symbols-outlined">settings_input_component</span>
+<span class="font-label-caps text-label-caps uppercase">Settings</span>
+</a>
+</nav>
+<button class="bg-primary text-on-primary font-label-caps text-label-caps py-base px-md rounded-xl hover:opacity-90 transition-opacity mb-20">
+            ADD IOT DEVICE
+        </button>
+</aside>
+<main class="md:ml-64 pt-16 pb-20 md:pb-8 min-h-screen">
+<div class="px-margin-mobile md:px-margin-desktop py-gutter flex flex-col gap-gutter">
+<header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-base">
+<div>
+<h1 class="font-headline-md text-headline-md text-on-surface">Executive Dashboard</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Real-time agricultural telemetry &amp; systems overview</p>
+</div>
+<div class="flex items-center gap-sm font-data-mono text-data-mono text-on-surface-variant bg-surface-container-lowest px-md py-base rounded-lg border border-outline-variant">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+                    SYSTEM LIVE: 14:42:09 UTC
+                </div>
+</header>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter">
+<div class="bg-surface-container-lowest rounded-xl p-md border-t-2 border-primary shadow-[0_4px_4px_rgba(0,0,0,0.05)] border-l border-r border-b border-outline-variant">
+<div class="flex justify-between items-start mb-base">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Soil Moisture</span>
+<span class="material-symbols-outlined text-primary">water_drop</span>
+</div>
+<div class="font-display-lg text-display-lg text-on-surface">42.8<span class="text-headline-sm">%</span></div>
+<div class="flex items-center gap-xs mt-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+<span class="font-data-mono text-data-mono">+2.1% from 12h</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-md border-t-2 border-secondary shadow-[0_4px_4px_rgba(0,0,0,0.05)] border-l border-r border-b border-outline-variant">
+<div class="flex justify-between items-start mb-base">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Air Temp</span>
+<span class="material-symbols-outlined text-secondary">thermostat</span>
+</div>
+<div class="font-display-lg text-display-lg text-on-surface">26.4<span class="text-headline-sm">°C</span></div>
+<div class="flex items-center gap-xs mt-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-sm text-error">trending_up</span>
+<span class="font-data-mono text-data-mono">Peak expected 16:00</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-md border-t-2 border-outline shadow-[0_4px_4px_rgba(0,0,0,0.05)] border-l border-r border-b border-outline-variant">
+<div class="flex justify-between items-start mb-base">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Humidity</span>
+<span class="material-symbols-outlined text-outline">air</span>
+</div>
+<div class="font-display-lg text-display-lg text-on-surface">68<span class="text-headline-sm">%</span></div>
+<div class="flex items-center gap-xs mt-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">video_stable</span>
+<span class="font-data-mono text-data-mono">Optimal range</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-md border-t-2 border-primary-container shadow-[0_4px_4px_rgba(0,0,0,0.05)] border-l border-r border-b border-outline-variant">
+<div class="flex justify-between items-start mb-base">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Irrigation</span>
+<span class="material-symbols-outlined text-on-primary-container">sprinkler</span>
+</div>
+<div class="font-display-lg text-display-lg text-on-surface">OFF</div>
+<div class="flex items-center gap-xs mt-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span class="font-data-mono text-data-mono">Next cycle: 20:00</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+<section class="lg:col-span-2 flex flex-col gap-md">
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-gutter shadow-[0_4px_4px_rgba(0,0,0,0.05)] relative overflow-hidden h-[450px]">
+<div class="flex justify-between items-center mb-gutter">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Farm Sector Map</h3>
+<div class="flex gap-base">
+<span class="flex items-center gap-xs font-label-caps text-label-caps text-on-surface-variant">
+<span class="w-2 h-2 rounded-full bg-primary"></span> Optimal
+                                </span>
+<span class="flex items-center gap-xs font-label-caps text-label-caps text-on-surface-variant">
+<span class="w-2 h-2 rounded-full bg-secondary-container"></span> Irrigating
+                                </span>
+<span class="flex items-center gap-xs font-label-caps text-label-caps text-on-surface-variant">
+<span class="w-2 h-2 rounded-full bg-error"></span> Alert
+                                </span>
+</div>
+</div>
+<div class="w-full h-full relative">
+<svg class="w-full h-full" fill="none" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+<path class="sector-polygon" d="M50 50 L350 50 L350 200 L50 200 Z" fill="#1b4332" opacity="0.1" stroke="#012d1d" stroke-width="1"></path>
+<text class="uppercase" fill="#012d1d" font-family="Hanken Grotesk" font-size="12" font-weight="700" x="180" y="130">Sector Alpha</text>
+<path class="sector-polygon" d="M360 50 L580 50 L580 350 L360 350 Z" fill="#67bafd" opacity="0.15" stroke="#006399" stroke-width="1"></path>
+<text class="uppercase" fill="#006399" font-family="Hanken Grotesk" font-size="12" font-weight="700" x="440" y="210">Sector Beta</text>
+<path class="sector-polygon" d="M590 50 L750 50 L750 150 L590 150 Z" fill="#ba1a1a" opacity="0.1" stroke="#ba1a1a" stroke-width="1"></path>
+<text class="uppercase" fill="#ba1a1a" font-family="Hanken Grotesk" font-size="12" font-weight="700" x="635" y="105">Sector Gamma</text>
+<path class="sector-polygon" d="M50 210 L350 210 L350 350 L50 350 Z" fill="#1b4332" opacity="0.1" stroke="#012d1d" stroke-width="1"></path>
+<text class="uppercase" fill="#012d1d" font-family="Hanken Grotesk" font-size="12" font-weight="700" x="180" y="290">Sector Delta</text>
+<path class="sector-polygon" d="M590 160 L750 160 L750 350 L590 350 Z" fill="#1b4332" opacity="0.1" stroke="#012d1d" stroke-width="1"></path>
+<text class="uppercase" fill="#012d1d" font-family="Hanken Grotesk" font-size="12" font-weight="700" x="640" y="260">Sector Epsilon</text>
+</svg>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-gutter shadow-[0_4px_4px_rgba(0,0,0,0.05)]">
+<div class="flex items-center gap-base mb-gutter">
+<span class="material-symbols-outlined text-error">warning</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Critical Active Alerts</h3>
+</div>
+<div class="flex flex-col gap-base">
+<div class="flex items-center justify-between p-base bg-error-container text-on-error-container rounded-lg border border-error/10">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined">sensors_off</span>
+<div>
+<div class="font-label-caps text-label-caps uppercase">Sensor Timeout</div>
+<div class="font-body-sm text-body-sm">Sector Gamma Node #124 failing to heartbeat</div>
+</div>
+</div>
+<span class="font-data-mono text-data-mono">12m ago</span>
+</div>
+<div class="flex items-center justify-between p-base bg-surface-container text-on-surface-variant rounded-lg border border-outline-variant">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-secondary">opacity</span>
+<div>
+<div class="font-label-caps text-label-caps uppercase">Low Reservoir Level</div>
+<div class="font-body-sm text-body-sm">Main tank below 15% capacity</div>
+</div>
+</div>
+<span class="font-data-mono text-data-mono">45m ago</span>
+</div>
+</div>
+</div>
+</section>
+<aside class="flex flex-col gap-gutter">
+<div class="bg-surface-container-high rounded-xl p-gutter border border-outline-variant shadow-[0_4px_4px_rgba(0,0,0,0.05)]">
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-gutter">Quick Actions</h3>
+<div class="flex flex-col gap-sm">
+<button class="flex items-center gap-md p-md bg-surface-container-lowest hover:bg-white rounded-lg border border-outline-variant transition-all text-on-surface text-left">
+<span class="material-symbols-outlined text-primary">water_ph</span>
+<div>
+<span class="block font-label-caps text-label-caps uppercase">Run Diagnostic</span>
+<span class="block font-body-sm text-body-sm text-on-surface-variant">Scan all field nodes</span>
+</div>
+</button>
+<button class="flex items-center gap-md p-md bg-surface-container-lowest hover:bg-white rounded-lg border border-outline-variant transition-all text-on-surface text-left">
+<span class="material-symbols-outlined text-secondary">format_paint</span>
+<div>
+<span class="block font-label-caps text-label-caps uppercase">Override Irrigation</span>
+<span class="block font-body-sm text-body-sm text-on-surface-variant">Manual valve control</span>
+</div>
+</button>
+<button class="flex items-center gap-md p-md bg-surface-container-lowest hover:bg-white rounded-lg border border-outline-variant transition-all text-on-surface text-left">
+<span class="material-symbols-outlined text-tertiary-container">history_edu</span>
+<div>
+<span class="block font-label-caps text-label-caps uppercase">Export Report</span>
+<span class="block font-body-sm text-body-sm text-on-surface-variant">Daily system audit</span>
+</div>
+</button>
+</div>
+</div>
+<div class="bg-primary-container text-on-primary-container rounded-xl p-gutter relative overflow-hidden min-h-[240px] flex flex-col justify-end">
+<div class="absolute inset-0 opacity-20">
+<img class="w-full h-full object-cover" data-alt="A wide-angle landscape shot of a lush, perfectly manicured agricultural field at sunrise. The soft morning mist hangs over the green rows of crops, and the warm, golden light of the sun creates high-contrast shadows and highlights. The aesthetic is clean, professional, and tranquil, emphasizing the harmony between technology and nature in a modern corporate farming setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwEDB2NhXA5F1GTJ6hUUWqpjPdSPWjVrG1fOPIrIK2Kr1JDgtIEAMp6lAFJXs1ZcIkYkprXPbsXmJuyoflA1GEGjzVMOIFlcGjLnUxEtnhVQrFjyHgqVStsMaHDcamTaAuwMHjLEbXkzpsY75DSooZ9ZP92EMEiGws_sZtd7SbF_LlwOsIqu6qx1GMbh_Hi7p5EsHHhgJmQCC8H1noC7qbvAeDHJ0jurA2SJyS67oPe4DHrgwYnYrTCiqFcTP8T9MUs8hFPt6ErwRv">
+</div>
+<div class="relative z-10">
+<span class="font-label-caps text-label-caps uppercase text-on-primary-container/80">Weather Advisory</span>
+<h4 class="font-headline-sm text-headline-sm mb-base">Storm Warning</h4>
+<p class="font-body-sm text-body-sm mb-md">Severe precipitation expected within 48 hours. Consider adjusting irrigation schedules.</p>
+<button class="bg-on-primary text-primary font-label-caps text-label-caps px-md py-base rounded-full hover:bg-primary-fixed-dim transition-colors">DISMISS</button>
+</div>
+</div>
+</aside>
+</div>
+</div>
+</main>
+<nav class="md:hidden fixed bottom-0 w-full z-50 flex justify-around items-center h-16 bg-surface dark:bg-inverse-surface shadow-md border-t border-outline-variant dark:border-outline rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed font-bold active:scale-90 transition-transform" href="index.html">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-caps text-label-caps uppercase">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline hover:bg-surface-container dark:hover:bg-inverse-surface" href="field_monitoring.html">
+<span class="material-symbols-outlined">agriculture</span>
+<span class="font-label-caps text-label-caps uppercase">Fields</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline hover:bg-surface-container dark:hover:bg-inverse-surface" href="automated_controls.html">
+<span class="material-symbols-outlined">bolt</span>
+<span class="font-label-caps text-label-caps uppercase">Actions</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline hover:bg-surface-container dark:hover:bg-inverse-surface" href="analytics_reports.html">
+<span class="material-symbols-outlined">assessment</span>
+<span class="font-label-caps text-label-caps uppercase">Reports</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline hover:bg-surface-container dark:hover:bg-inverse-surface" href="farm_settings.html">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-caps text-label-caps uppercase">Settings</span>
+</a>
+</nav>
+</body></html>

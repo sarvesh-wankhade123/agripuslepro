@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Crop Intelligence Center | AgriPulse Pro</title>
+  <meta name="description" content="Search and explore detailed crop intelligence data including growing seasons, soil pH, moisture, temperature, and rainfall requirements.">
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "secondary-fixed": "#cde5ff",
+            "on-tertiary-fixed-variant": "#673a39",
+            "on-secondary-container": "#004972",
+            "surface-variant": "#e2e3e0",
+            "error-container": "#ffdad6",
+            "inverse-on-surface": "#f0f1ee",
+            "on-background": "#1a1c1a",
+            "on-tertiary-container": "#d29895",
+            "inverse-primary": "#a5d0b9",
+            "on-surface-variant": "#414844",
+            "secondary-fixed-dim": "#94ccff",
+            "secondary": "#006399",
+            "surface-container-highest": "#e2e3e0",
+            "primary": "#012d1d",
+            "surface-container-high": "#e8e8e5",
+            "outline-variant": "#c1c8c2",
+            "on-primary-container": "#86af99",
+            "on-tertiary": "#ffffff",
+            "on-secondary": "#ffffff",
+            "primary-fixed-dim": "#a5d0b9",
+            "surface-dim": "#dadad7",
+            "surface-container-low": "#f3f4f1",
+            "on-primary": "#ffffff",
+            "outline": "#717973",
+            "primary-container": "#1b4332",
+            "error": "#ba1a1a",
+            "on-error": "#ffffff",
+            "surface-container": "#eeeeeb",
+            "tertiary-container": "#5a302f",
+            "surface-bright": "#f9faf6",
+            "on-surface": "#1a1c1a",
+            "on-tertiary-fixed": "#331111",
+            "surface-container-lowest": "#ffffff",
+            "inverse-surface": "#2f312f",
+            "background": "#f9faf6",
+            "surface-tint": "#3f6653",
+            "tertiary-fixed-dim": "#f5b7b4",
+            "surface": "#f9faf6",
+            "on-secondary-fixed": "#001d32",
+            "primary-fixed": "#c1ecd4",
+            "on-primary-fixed": "#002114",
+            "tertiary-fixed": "#ffdad8",
+            "on-secondary-fixed-variant": "#004b74",
+            "secondary-container": "#67bafd",
+            "on-error-container": "#93000a",
+            "on-primary-fixed-variant": "#274e3d",
+            "tertiary": "#401b1b",
+          },
+          borderRadius: {
+            DEFAULT: "0.125rem",
+            lg: "0.25rem",
+            xl: "0.5rem",
+            full: "0.75rem",
+          },
+          spacing: {
+            gutter: "24px",
+            lg: "40px",
+            xl: "64px",
+            md: "24px",
+            base: "8px",
+            xs: "4px",
+            "margin-desktop": "32px",
+            "margin-mobile": "16px",
+            sm: "12px",
+          },
+          fontFamily: {
+            "data-mono": ["JetBrains Mono"],
+            "label-caps": ["Hanken Grotesk"],
+            "body-lg": ["Hanken Grotesk"],
+            "display-lg": ["Hanken Grotesk"],
+            "headline-sm": ["Hanken Grotesk"],
+            "body-sm": ["Hanken Grotesk"],
+            "headline-md": ["Hanken Grotesk"],
+            "body-md": ["Hanken Grotesk"],
+          },
+          fontSize: {
+            "data-mono": ["14px", { lineHeight: "20px", fontWeight: "500" }],
+            "label-caps": ["12px", { lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "700" }],
+            "body-lg": ["18px", { lineHeight: "28px", fontWeight: "400" }],
+            "display-lg": ["48px", { lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "700" }],
+            "headline-sm": ["24px", { lineHeight: "32px", fontWeight: "600" }],
+            "body-sm": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+            "headline-md": ["32px", { lineHeight: "40px", fontWeight: "600" }],
+            "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+    }
+
+    /* Bento grid */
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 24px;
+    }
+
+    /* Card hover lift */
+    .crop-card {
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .crop-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Fade-in animation for cards */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .animate-card {
+      animation: fadeInUp 0.4s ease-out both;
+    }
+
+    /* Image shimmer while loading */
+    .img-shimmer {
+      background: linear-gradient(
+        110deg,
+        #e8e8e5 0%,
+        #f3f4f1 40%,
+        #e8e8e5 60%
+      );
+      background-size: 200% 100%;
+      animation: shimmer 1.5s ease-in-out infinite;
+    }
+    @keyframes shimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* Search bar pulse */
+    .search-focus:focus-within {
+      box-shadow: 0 0 0 3px rgba(1, 45, 29, 0.12);
+      border-color: #012d1d;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #c1c8c2; border-radius: 10px; }
+  </style>
+</head>
+
+<body class="bg-background text-on-surface font-body-md overflow-x-hidden">
+<script>if(!sessionStorage.getItem("agripulse_user")){window.location.replace("login.html");}</script>
+
+<!-- ═══════════ SIDEBAR (Desktop) ═══════════ -->
+<aside class="hidden md:flex flex-col h-screen w-64 fixed left-0 top-0 bg-surface-container-low dark:bg-surface-container-highest border-r border-outline-variant dark:border-outline p-base gap-sm z-40">
+  <div class="px-base py-md">
+    <span class="font-headline-sm text-headline-sm font-bold text-primary dark:text-primary-fixed block">AgriPulse Pro</span>
+    <span class="font-label-caps text-label-caps text-on-surface-variant">Central Command</span>
+  </div>
+  <nav class="flex flex-col gap-xs flex-grow">
+    <a class="flex items-center gap-sm p-base text-on-surface-variant dark:text-outline hover:bg-surface-container-high transition-all rounded-lg" href="index.html">
+      <span class="material-symbols-outlined">dashboard</span>
+      <span class="font-label-caps text-label-caps uppercase">Dashboard</span>
+    </a>
+    <a class="flex items-center gap-sm p-base text-on-surface-variant dark:text-outline hover:bg-surface-container-high transition-all rounded-lg" href="field_monitoring.html">
+      <span class="material-symbols-outlined">potted_plant</span>
+      <span class="font-label-caps text-label-caps uppercase">Field Details</span>
+    </a>
+    <a class="flex items-center gap-sm p-base text-on-surface-variant dark:text-outline hover:bg-surface-container-high transition-all rounded-lg" href="automated_controls.html">
+      <span class="material-symbols-outlined">precision_manufacturing</span>
+      <span class="font-label-caps text-label-caps uppercase">Automation</span>
+    </a>
+    <a class="flex items-center gap-sm p-base text-on-surface-variant dark:text-outline hover:bg-surface-container-high transition-all rounded-lg" href="analytics_reports.html">
+      <span class="material-symbols-outlined">analytics</span>
+      <span class="font-label-caps text-label-caps uppercase">Analytics</span>
+    </a>
+    <a class="flex items-center gap-sm p-base bg-primary dark:bg-primary-container text-on-primary dark:text-on-primary-container rounded-lg active:scale-95 duration-100 transition-all" href="crops.html">
+      <span class="material-symbols-outlined">agriculture</span>
+      <span class="font-label-caps text-label-caps uppercase">Crop Database</span>
+    </a>
+    <a class="flex items-center gap-sm p-base text-on-surface-variant dark:text-outline hover:bg-surface-container-high transition-all rounded-lg" href="farm_settings.html">
+      <span class="material-symbols-outlined">settings_input_component</span>
+      <span class="font-label-caps text-label-caps uppercase">Settings</span>
+    </a>
+  </nav>
+  <button class="bg-primary text-on-primary font-label-caps text-label-caps py-base px-md rounded-xl hover:opacity-90 transition-opacity mb-4">
+    ADD IOT DEVICE
+  </button>
+</aside>
+
+<!-- ═══════════ TOP APP BAR ═══════════ -->
+<header class="bg-surface-bright dark:bg-surface-dim border-b border-outline-variant dark:border-outline fixed top-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop md:pl-72 h-16">
+  <div class="flex items-center gap-md">
+    <span class="material-symbols-outlined md:hidden text-primary">menu</span>
+    <span class="text-headline-sm font-headline-sm font-bold text-primary dark:text-primary-fixed">Crop Intelligence</span>
+  </div>
+  <div class="flex items-center gap-base">
+    <button class="p-base hover:bg-surface-container-low rounded-full transition-colors">
+      <span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+    </button>
+    <button class="p-base hover:bg-surface-container-low rounded-full transition-colors">
+      <span class="material-symbols-outlined text-on-surface-variant">help_outline</span>
+    </button>
+    <div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center">
+      <span class="material-symbols-outlined text-on-primary-container text-[18px]">person</span>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════ MAIN CONTENT ═══════════ -->
+<main class="md:ml-64 pt-16 pb-20 md:pb-8 min-h-screen">
+  <div class="px-margin-mobile md:px-margin-desktop py-gutter flex flex-col gap-gutter">
+
+    <!-- Page Header -->
+    <header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-base">
+      <div>
+        <h1 class="font-headline-md text-headline-md text-on-surface">Crop Intelligence Center</h1>
+        <p class="font-body-md text-body-md text-on-surface-variant">Search, filter, and analyze crop suitability for your field conditions</p>
+      </div>
+      <div class="flex items-center gap-sm font-data-mono text-data-mono text-on-surface-variant bg-surface-container-lowest px-md py-base rounded-lg border border-outline-variant">
+        <span class="material-symbols-outlined text-[16px] text-primary">database</span>
+        <span id="cropCount">16 crops indexed</span>
+      </div>
+    </header>
+
+    <!-- ─── Search Bar ─── -->
+    <div class="search-focus flex items-center gap-md bg-surface-container-low border border-outline-variant rounded-2xl px-md py-3 transition-all duration-200">
+      <span class="material-symbols-outlined text-outline text-[28px]">search</span>
+      <input
+        id="cropSearch"
+        type="text"
+        placeholder="Search crops by name, season, moisture level…"
+        class="flex-grow bg-transparent border-none focus:ring-0 font-body-lg text-body-lg text-on-surface placeholder:text-outline"
+        autocomplete="off"
+      >
+      <span id="clearSearch" class="material-symbols-outlined text-outline cursor-pointer hover:text-on-surface transition-colors hidden">close</span>
+    </div>
+
+    <!-- Quick-filter chips -->
+    <div class="flex flex-wrap gap-sm" id="filterChips">
+      <button data-filter="all" class="chip-btn active-chip px-md py-xs rounded-full font-label-caps text-label-caps border transition-all duration-200">All Crops</button>
+      <button data-filter="kharif" class="chip-btn px-md py-xs rounded-full font-label-caps text-label-caps border border-outline-variant text-on-surface-variant hover:bg-surface-container-high transition-all duration-200">Kharif</button>
+      <button data-filter="rabi" class="chip-btn px-md py-xs rounded-full font-label-caps text-label-caps border border-outline-variant text-on-surface-variant hover:bg-surface-container-high transition-all duration-200">Rabi</button>
+      <button data-filter="perennial" class="chip-btn px-md py-xs rounded-full font-label-caps text-label-caps border border-outline-variant text-on-surface-variant hover:bg-surface-container-high transition-all duration-200">Perennial</button>
+      <button data-filter="high-moisture" class="chip-btn px-md py-xs rounded-full font-label-caps text-label-caps border border-outline-variant text-on-surface-variant hover:bg-surface-container-high transition-all duration-200">High Moisture</button>
+    </div>
+
+    <!-- Results grid -->
+    <div id="cropGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-gutter">
+      <!-- Cards rendered by JS -->
+    </div>
+
+    <!-- Empty state -->
+    <div id="emptyState" class="hidden flex-col items-center justify-center py-xl gap-md text-center">
+      <span class="material-symbols-outlined text-outline text-[64px]">search_off</span>
+      <h3 class="font-headline-sm text-headline-sm text-on-surface-variant">No crops found</h3>
+      <p class="font-body-md text-body-md text-outline max-w-md">Try adjusting your search term or clearing the active filter.</p>
+      <button onclick="resetFilters()" class="mt-base px-lg py-sm bg-primary text-on-primary font-label-caps text-label-caps rounded-xl hover:opacity-90 transition-opacity">
+        Clear Filters
+      </button>
+    </div>
+
+  </div>
+</main>
+
+<!-- ═══════════ BOTTOM NAV (Mobile) ═══════════ -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 flex justify-around items-center h-16 bg-surface dark:bg-inverse-surface shadow-md border-t border-outline-variant dark:border-outline rounded-t-xl">
+  <a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline hover:bg-surface-container dark:hover:bg-inverse-surface" href="index.html">
+    <span class="material-symbols-outlined">home</span>
+    <span class="font-label-caps text-label-caps uppercase text-[10px]">Home</span>
+  </a>
+  <a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline hover:bg-surface-container dark:hover:bg-inverse-surface" href="field_monitoring.html">
+    <span class="material-symbols-outlined">agriculture</span>
+    <span class="font-label-caps text-label-caps uppercase text-[10px]">Fields</span>
+  </a>
+  <a class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed font-bold active:scale-90 transition-transform" href="crops.html">
+    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">eco</span>
+    <span class="font-label-caps text-label-caps uppercase text-[10px]">Crops</span>
+  </a>
+  <a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline hover:bg-surface-container dark:hover:bg-inverse-surface" href="analytics_reports.html">
+    <span class="material-symbols-outlined">assessment</span>
+    <span class="font-label-caps text-label-caps uppercase text-[10px]">Reports</span>
+  </a>
+  <a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline hover:bg-surface-container dark:hover:bg-inverse-surface" href="farm_settings.html">
+    <span class="material-symbols-outlined">settings</span>
+    <span class="font-label-caps text-label-caps uppercase text-[10px]">Settings</span>
+  </a>
+</nav>
+
+<!-- ═══════════ SCRIPT ═══════════ -->
+<script type="module">
+import { cropDatabase, getSuitabilityBadge } from "./src/cropData.js";
+
+const grid       = document.getElementById("cropGrid");
+const searchInput = document.getElementById("cropSearch");
+const clearBtn   = document.getElementById("clearSearch");
+const emptyState = document.getElementById("emptyState");
+const countEl    = document.getElementById("cropCount");
+const chipBtns   = document.querySelectorAll(".chip-btn");
+
+let activeFilter = "all";
+
+// ── Badge colour map ──
+const badgeStyles = {
+  optimal:  "bg-primary-fixed text-on-primary-fixed",
+  caution:  "bg-tertiary-fixed text-on-tertiary-fixed",
+  info:     "bg-secondary-fixed text-on-secondary-fixed",
+  neutral:  "bg-surface-container-high text-on-surface-variant",
+};
+
+// ── Build a single card ──
+function createCard(crop, index) {
+  const badge = getSuitabilityBadge(crop);
+  const badgeClass = badgeStyles[badge.variant] || badgeStyles.neutral;
+
+  return `
+    <article class="crop-card animate-card bg-surface-container-lowest rounded-xl border border-outline-variant shadow-[0_4px_6px_rgba(0,0,0,0.04)] overflow-hidden flex flex-col"
+             style="animation-delay:${index * 60}ms"
+             data-name="${crop.name.toLowerCase()}"
+             data-season="${crop.season.toLowerCase()}"
+             data-moisture="${crop.moisture.toLowerCase()}">
+
+      <!-- Image -->
+      <div class="relative h-44 overflow-hidden img-shimmer">
+        <img
+          src="${crop.image}"
+          alt="${crop.name} crop field"
+          class="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+          loading="lazy"
+          onerror="this.style.display='none'"
+        >
+        <!-- Badge -->
+        <span class="absolute top-sm right-sm px-sm py-xs rounded-full ${badgeClass} font-label-caps text-[10px] flex items-center gap-xs backdrop-blur-sm">
+          <span class="material-symbols-outlined text-[14px]">${badge.variant === "optimal" ? "check_circle" : badge.variant === "caution" ? "water_drop" : badge.variant === "info" ? "ac_unit" : "tune"}</span>
+          ${badge.label}
+        </span>
+      </div>
+
+      <!-- Content -->
+      <div class="p-md flex flex-col gap-md flex-grow">
+        <!-- Title row -->
+        <div class="flex justify-between items-start">
+          <div>
+            <h3 class="font-headline-sm text-[20px] text-on-surface leading-tight">${crop.name}</h3>
+            <p class="font-body-sm text-body-sm text-on-surface-variant mt-xs line-clamp-2">${crop.description}</p>
+          </div>
+        </div>
+
+        <!-- Tech specs grid -->
+        <div class="grid grid-cols-2 gap-x-md gap-y-sm border-t border-outline-variant pt-md">
+          <div class="flex items-center gap-xs">
+            <span class="material-symbols-outlined text-primary text-[16px]">calendar_month</span>
+            <div>
+              <span class="block font-label-caps text-[10px] text-outline uppercase">Season</span>
+              <span class="block font-data-mono text-data-mono text-on-surface">${crop.season}</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-xs">
+            <span class="material-symbols-outlined text-primary text-[16px]">timer</span>
+            <div>
+              <span class="block font-label-caps text-[10px] text-outline uppercase">Duration</span>
+              <span class="block font-data-mono text-data-mono text-on-surface">${crop.duration}</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-xs">
+            <span class="material-symbols-outlined text-secondary text-[16px]">science</span>
+            <div>
+              <span class="block font-label-caps text-[10px] text-outline uppercase">Soil pH</span>
+              <span class="block font-data-mono text-data-mono text-on-surface">${crop.ph}</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-xs">
+            <span class="material-symbols-outlined text-secondary text-[16px]">water_drop</span>
+            <div>
+              <span class="block font-label-caps text-[10px] text-outline uppercase">Moisture</span>
+              <span class="block font-data-mono text-data-mono text-on-surface">${crop.moisture}</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-xs">
+            <span class="material-symbols-outlined text-error text-[16px]">thermostat</span>
+            <div>
+              <span class="block font-label-caps text-[10px] text-outline uppercase">Temperature</span>
+              <span class="block font-data-mono text-data-mono text-on-surface">${crop.temp}</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-xs">
+            <span class="material-symbols-outlined text-on-primary-container text-[16px]">cloudy_snowing</span>
+            <div>
+              <span class="block font-label-caps text-[10px] text-outline uppercase">Rainfall</span>
+              <span class="block font-data-mono text-data-mono text-on-surface">${crop.rainfall}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  `;
+}
+
+// ── Render cards ──
+function render(crops) {
+  if (crops.length === 0) {
+    grid.innerHTML = "";
+    grid.classList.add("hidden");
+    emptyState.classList.remove("hidden");
+    emptyState.classList.add("flex");
+  } else {
+    emptyState.classList.add("hidden");
+    emptyState.classList.remove("flex");
+    grid.classList.remove("hidden");
+    grid.innerHTML = crops.map((c, i) => createCard(c, i)).join("");
+  }
+  countEl.textContent = `${crops.length} crop${crops.length !== 1 ? "s" : ""} indexed`;
+}
+
+// ── Filter logic ──
+function filterCrops() {
+  const query = searchInput.value.trim().toLowerCase();
+  clearBtn.classList.toggle("hidden", query.length === 0);
+
+  let results = cropDatabase;
+
+  // Season / moisture chip filter
+  if (activeFilter !== "all") {
+    results = results.filter((c) => {
+      if (activeFilter === "kharif") return c.season.toLowerCase().includes("kharif");
+      if (activeFilter === "rabi") return c.season.toLowerCase().includes("rabi");
+      if (activeFilter === "perennial") return c.season.toLowerCase().includes("perennial") || c.season.toLowerCase().includes("year");
+      if (activeFilter === "high-moisture") {
+        const m = c.moisture.toLowerCase();
+        return m.includes("high") || m.includes("very high");
+      }
+      return true;
+    });
+  }
+
+  // Text search
+  if (query) {
+    results = results.filter((c) =>
+      c.name.toLowerCase().includes(query) ||
+      c.season.toLowerCase().includes(query) ||
+      c.moisture.toLowerCase().includes(query) ||
+      c.description.toLowerCase().includes(query)
+    );
+  }
+
+  render(results);
+}
+
+// ── Event listeners ──
+searchInput.addEventListener("input", filterCrops);
+
+clearBtn.addEventListener("click", () => {
+  searchInput.value = "";
+  filterCrops();
+  searchInput.focus();
+});
+
+chipBtns.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    activeFilter = btn.dataset.filter;
+    chipBtns.forEach((b) => {
+      b.classList.remove("active-chip", "bg-primary", "text-on-primary", "border-primary");
+      b.classList.add("border-outline-variant", "text-on-surface-variant");
+    });
+    btn.classList.add("active-chip", "bg-primary", "text-on-primary", "border-primary");
+    btn.classList.remove("border-outline-variant", "text-on-surface-variant");
+    filterCrops();
+  });
+});
+
+// Reset helper (used by empty state)
+window.resetFilters = () => {
+  activeFilter = "all";
+  searchInput.value = "";
+  chipBtns.forEach((b) => {
+    b.classList.remove("active-chip", "bg-primary", "text-on-primary", "border-primary");
+    b.classList.add("border-outline-variant", "text-on-surface-variant");
+  });
+  chipBtns[0].classList.add("active-chip", "bg-primary", "text-on-primary", "border-primary");
+  chipBtns[0].classList.remove("border-outline-variant", "text-on-surface-variant");
+  filterCrops();
+};
+
+// ── Initial render ──
+// Set "All" chip as active on load
+chipBtns[0].classList.add("bg-primary", "text-on-primary", "border-primary");
+chipBtns[0].classList.remove("border-outline-variant", "text-on-surface-variant");
+render(cropDatabase);
+</script>
+
+</body>
+</html>

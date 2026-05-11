@@ -1,0 +1,430 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed": "#cde5ff",
+                        "on-tertiary-fixed-variant": "#673a39",
+                        "on-secondary-container": "#004972",
+                        "surface-variant": "#e2e3e0",
+                        "error-container": "#ffdad6",
+                        "inverse-on-surface": "#f0f1ee",
+                        "on-background": "#1a1c1a",
+                        "on-tertiary-container": "#d29895",
+                        "inverse-primary": "#a5d0b9",
+                        "on-surface-variant": "#414844",
+                        "secondary-fixed-dim": "#94ccff",
+                        "secondary": "#006399",
+                        "surface-container-highest": "#e2e3e0",
+                        "primary": "#012d1d",
+                        "surface-container-high": "#e8e8e5",
+                        "outline-variant": "#c1c8c2",
+                        "on-primary-container": "#86af99",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed-dim": "#a5d0b9",
+                        "surface-dim": "#dadad7",
+                        "surface-container-low": "#f3f4f1",
+                        "on-primary": "#ffffff",
+                        "outline": "#717973",
+                        "primary-container": "#1b4332",
+                        "error": "#ba1a1a",
+                        "on-error": "#ffffff",
+                        "surface-container": "#eeeeeb",
+                        "tertiary-container": "#5a302f",
+                        "surface-bright": "#f9faf6",
+                        "on-surface": "#1a1c1a",
+                        "on-tertiary-fixed": "#331111",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-surface": "#2f312f",
+                        "background": "#f9faf6",
+                        "surface-tint": "#3f6653",
+                        "tertiary-fixed-dim": "#f5b7b4",
+                        "surface": "#f9faf6",
+                        "on-secondary-fixed": "#001d32",
+                        "primary-fixed": "#c1ecd4",
+                        "on-primary-fixed": "#002114",
+                        "tertiary-fixed": "#ffdad8",
+                        "on-secondary-fixed-variant": "#004b74",
+                        "secondary-container": "#67bafd",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed-variant": "#274e3d",
+                        "tertiary": "#401b1b"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "lg": "40px",
+                        "xl": "64px",
+                        "md": "24px",
+                        "base": "8px",
+                        "xs": "4px",
+                        "margin-desktop": "32px",
+                        "margin-mobile": "16px",
+                        "sm": "12px"
+                    },
+                    "fontFamily": {
+                        "data-mono": ["JetBrains Mono"],
+                        "label-caps": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "headline-sm": ["Hanken Grotesk"],
+                        "body-sm": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "data-mono": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .custom-toggle:checked + .toggle-bg {
+            background-color: #1b4332;
+        }
+        .custom-toggle:checked + .toggle-bg .toggle-dot {
+            transform: translateX(20px);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col md:flex-row">
+<script>if(!sessionStorage.getItem("agripulse_user")){window.location.replace("login.html");}</script>
+<!-- SideNavBar (Desktop) -->
+<aside class="hidden md:flex flex-col h-screen p-base gap-sm bg-surface-container-low border-r border-outline-variant w-64 fixed left-0">
+<div class="flex items-center gap-base mb-lg px-base">
+<div class="w-10 h-10 bg-primary flex items-center justify-center rounded-lg">
+<span class="material-symbols-outlined text-on-primary" data-icon="agriculture">agriculture</span>
+</div>
+<div>
+<h1 class="font-headline-sm text-headline-sm font-bold text-primary">AgriPulse Pro</h1>
+<p class="font-label-caps text-[10px] text-on-surface-variant">Central Command</p>
+</div>
+</div>
+<nav class="flex flex-col gap-xs flex-grow">
+<a class="flex items-center gap-sm p-base text-on-surface-variant hover:text-primary transition-all rounded-lg" href="index.html">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-caps text-label-caps">Dashboard</span>
+</a>
+<a class="flex items-center gap-sm p-base text-on-surface-variant hover:text-primary transition-all rounded-lg" href="field_monitoring.html">
+<span class="material-symbols-outlined" data-icon="potted_plant">potted_plant</span>
+<span class="font-label-caps text-label-caps">Field Details</span>
+</a>
+<a class="flex items-center gap-sm p-base bg-primary text-on-primary rounded-lg transition-all active:scale-95 duration-100" href="automated_controls.html">
+<span class="material-symbols-outlined" data-icon="precision_manufacturing">precision_manufacturing</span>
+<span class="font-label-caps text-label-caps">Automation</span>
+</a>
+<a class="flex items-center gap-sm p-base text-on-surface-variant hover:text-primary transition-all rounded-lg" href="analytics_reports.html">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-label-caps text-label-caps">Analytics</span>
+</a>
+<a class="flex items-center gap-sm p-base text-on-surface-variant hover:text-primary transition-all rounded-lg" href="crops.html">
+<span class="material-symbols-outlined" data-icon="agriculture">agriculture</span>
+<span class="font-label-caps text-label-caps">Crop Database</span>
+</a>
+<a class="flex items-center gap-sm p-base text-on-surface-variant hover:text-primary transition-all rounded-lg" href="farm_settings.html">
+<span class="material-symbols-outlined" data-icon="settings_input_component">settings_input_component</span>
+<span class="font-label-caps text-label-caps">Settings</span>
+</a>
+</nav>
+<button class="bg-primary-container text-on-primary-container p-base rounded-lg flex items-center justify-center gap-sm font-label-caps text-label-caps hover:bg-opacity-90 transition-opacity mb-base">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+            Add IoT Device
+        </button>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-grow md:ml-64 pb-20 md:pb-0">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop h-16 bg-surface-bright border-b border-outline-variant sticky top-0 z-40">
+<div class="flex items-center gap-base">
+<span class="material-symbols-outlined md:hidden" data-icon="menu">menu</span>
+<h2 class="font-headline-sm text-headline-sm font-bold text-primary">Automated Actions</h2>
+</div>
+<div class="flex items-center gap-md">
+<div class="hidden md:flex items-center bg-surface-container-low px-sm py-xs rounded-full border border-outline-variant">
+<span class="material-symbols-outlined text-outline" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-sm font-body-sm w-48" placeholder="Search systems..." type="text">
+</div>
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:bg-surface-container-low p-xs rounded-full" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:bg-surface-container-low p-xs rounded-full" data-icon="help_outline">help_outline</span>
+<img alt="Operator Profile" class="w-8 h-8 rounded-full border border-outline-variant" data-alt="A professional close-up portrait of a modern farm operator wearing technical outdoor gear and a headset. The lighting is soft and natural, emphasizing a clean corporate aesthetic with a blurred high-tech control room in the background. The style is minimalist and high-contrast, fitting for a sophisticated agricultural technology interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnn8UDM-FE6VUPrCrr0pMernfFJF8bMvaxtOGYpPHfSWtD3YxSxDelvlJgKII_rgzEJ5NwbqswgaBM9xwFk24dgN8DOfeVR6Ngll6sLhMQxhNAwPkixtuzKXOqJ2FglU7Hq-CN0DjFy4PsX6g-K_8HTnoOh6H_A5PQJ7zczi7QJP0hY46krq-8AZWy9OI76OdiX3Jg6KTZiNPuLlcL96hMVbXcRRcbVB_-0is1ac23FpzO_DFw__fM24ofN8qXmym4ssINX-oAYSzI">
+</div>
+</div>
+</header>
+<div class="p-margin-mobile md:p-margin-desktop space-y-gutter">
+<!-- Section 1: Irrigation Schedules (Bento Grid Style) -->
+<section class="space-y-base">
+<div class="flex justify-between items-end">
+<div>
+<span class="font-label-caps text-label-caps text-primary">Live Operations</span>
+<h3 class="font-headline-sm text-headline-sm">Irrigation Schedules</h3>
+</div>
+<button class="text-primary font-label-caps text-label-caps flex items-center gap-xs">
+                        View All <span class="material-symbols-outlined text-[16px]" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-md">
+<!-- Schedule Card 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant border-t-2 border-t-primary p-md rounded-lg shadow-[0_4px_4px_rgba(0,0,0,0.05)] flex flex-col justify-between">
+<div class="flex justify-between items-start mb-md">
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant">North Sector A1</p>
+<h4 class="font-headline-sm text-[20px]">Morning Mist</h4>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only custom-toggle" type="checkbox">
+<div class="w-11 h-6 bg-outline-variant rounded-full toggle-bg transition-colors flex items-center px-[2px]">
+<div class="w-4 h-4 bg-white rounded-full toggle-dot shadow-sm transition-transform"></div>
+</div>
+</label>
+</div>
+<div class="space-y-sm">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-secondary" data-icon="schedule">schedule</span>
+<span class="font-data-mono text-data-mono">05:30 AM — 07:00 AM</span>
+</div>
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-secondary" data-icon="water_drop">water_drop</span>
+<span class="font-data-mono text-data-mono">12.5L / m²</span>
+</div>
+</div>
+<div class="mt-md pt-sm border-t border-outline-variant flex justify-between items-center">
+<div class="flex items-center gap-xs">
+<div class="w-2 h-2 rounded-full bg-green-500"></div>
+<span class="font-label-caps text-[10px]">ACTIVE</span>
+</div>
+<span class="font-label-caps text-[10px] text-outline">Last: 2h ago</span>
+</div>
+</div>
+<!-- Schedule Card 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant border-t-2 border-t-secondary p-md rounded-lg shadow-[0_4px_4px_rgba(0,0,0,0.05)] flex flex-col justify-between">
+<div class="flex justify-between items-start mb-md">
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant">East Vineyard</p>
+<h4 class="font-headline-sm text-[20px]">Precision Drip</h4>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only custom-toggle" type="checkbox">
+<div class="w-11 h-6 bg-outline-variant rounded-full toggle-bg transition-colors flex items-center px-[2px]">
+<div class="w-4 h-4 bg-white rounded-full toggle-dot shadow-sm transition-transform"></div>
+</div>
+</label>
+</div>
+<div class="space-y-sm">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-secondary" data-icon="schedule">schedule</span>
+<span class="font-data-mono text-data-mono">09:00 PM — 11:30 PM</span>
+</div>
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-secondary" data-icon="water_drop">water_drop</span>
+<span class="font-data-mono text-data-mono">4.2L / m²</span>
+</div>
+</div>
+<div class="mt-md pt-sm border-t border-outline-variant flex justify-between items-center">
+<div class="flex items-center gap-xs">
+<div class="w-2 h-2 rounded-full bg-outline"></div>
+<span class="font-label-caps text-[10px]">STANDBY</span>
+</div>
+<span class="font-label-caps text-[10px] text-outline">Next: 14h</span>
+</div>
+</div>
+<!-- Add New Button -->
+<div class="border-2 border-dashed border-outline-variant rounded-lg flex flex-col items-center justify-center p-md hover:bg-surface-container-low transition-colors cursor-pointer min-h-[180px]">
+<span class="material-symbols-outlined text-outline text-[40px]" data-icon="add_circle">add_circle</span>
+<p class="font-label-caps text-label-caps text-outline mt-base">New Schedule</p>
+</div>
+</div>
+</section>
+<!-- Section 2: Drone Command & Threshold Alerts (Asymmetric Layout) -->
+<div class="grid grid-cols-1 lg:grid-cols-5 gap-gutter">
+<!-- Drone Command Section -->
+<section class="lg:col-span-3 space-y-base">
+<div class="bg-surface-container-lowest border border-outline-variant p-md rounded-lg shadow-[0_4px_4px_rgba(0,0,0,0.05)] h-full">
+<div class="flex justify-between items-center mb-md">
+<div>
+<span class="font-label-caps text-label-caps text-primary">Autonomous Survey</span>
+<h3 class="font-headline-sm text-headline-sm">Drone Command</h3>
+</div>
+<div class="flex gap-xs">
+<button class="p-xs bg-surface-container rounded border border-outline-variant hover:bg-outline-variant transition-colors">
+<span class="material-symbols-outlined" data-icon="refresh">refresh</span>
+</button>
+<button class="px-md py-xs bg-primary text-on-primary font-label-caps text-label-caps rounded flex items-center gap-sm hover:opacity-90">
+<span class="material-symbols-outlined text-[18px]" data-icon="flight_takeoff">flight_takeoff</span>
+                                    Launch Alpha-1
+                                </button>
+</div>
+</div>
+<div class="relative w-full aspect-video rounded-lg overflow-hidden border border-outline-variant bg-surface-container">
+<img alt="Flight Path Map" class="w-full h-full object-cover grayscale opacity-80" data-location="Napa Valley" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBmvDDMofZ-fbPWEWANZSpRgcwj-G2f3JyQCeaBk-e4EdZmMfG6wo5gg9FKfIIhmAKNSif2WcAMM5oXQC2j0nXhKzDx_wq8NxHP5iIo3osLrAlTccWpVX58gAsnG5uZMsu4h8MvA-8oaZNyjbqHgN-hTXLrAagsjOAzWbuTZOVpJLKl6Z_mA_uYCmTo4oL4wGZNmOIM2YcakJ9Uu-iSQuh8gJsekz3NZY350AVaBN_n_KYH-vNoSJ_4fARbVP5z8u3ygN358OMZBVyW">
+<!-- SVG Overlay for Path -->
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<svg class="w-full h-full" viewBox="0 0 800 450">
+<path d="M100,300 L250,150 L450,350 L650,100" fill="none" stroke="#67bafd" stroke-dasharray="8,8" stroke-width="4"></path>
+<circle cx="100" cy="300" fill="#012d1d" r="6"></circle>
+<circle cx="650" cy="100" fill="#ba1a1a" r="6"></circle>
+<text class="font-data-mono text-[12px]" fill="white" x="110" y="315">HQ-01</text>
+<text class="font-data-mono text-[12px]" fill="white" x="630" y="125">TERM-Z</text>
+</svg>
+</div>
+<!-- Drone Status Float -->
+<div class="absolute top-sm right-sm bg-inverse-surface text-inverse-on-surface p-sm rounded-lg backdrop-blur-md bg-opacity-80 border border-outline flex flex-col gap-xs">
+<div class="flex items-center justify-between gap-xl">
+<span class="font-label-caps text-[10px]">DRONE STATUS</span>
+<span class="font-label-caps text-[10px] text-green-400">READY</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-[10px]">BATTERY</span>
+<span class="font-data-mono text-[12px]">88%</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="font-label-caps text-[10px]">SIGNAL</span>
+<span class="font-data-mono text-[12px]">92ms</span>
+</div>
+</div>
+</div>
+<div class="mt-md grid grid-cols-3 gap-sm">
+<div class="p-sm bg-surface-container rounded border border-outline-variant">
+<p class="font-label-caps text-[10px] text-on-surface-variant">Path Points</p>
+<p class="font-data-mono text-data-mono">12 Nodes</p>
+</div>
+<div class="p-sm bg-surface-container rounded border border-outline-variant">
+<p class="font-label-caps text-[10px] text-on-surface-variant">Est. Time</p>
+<p class="font-data-mono text-data-mono">24:15m</p>
+</div>
+<div class="p-sm bg-surface-container rounded border border-outline-variant">
+<p class="font-label-caps text-[10px] text-on-surface-variant">Coverage</p>
+<p class="font-data-mono text-data-mono">140 Acres</p>
+</div>
+</div>
+</div>
+</section>
+<!-- SMS Threshold Alerts Section -->
+<section class="lg:col-span-2 space-y-base">
+<div class="bg-surface-container-lowest border border-outline-variant p-md rounded-lg shadow-[0_4px_4px_rgba(0,0,0,0.05)] h-full">
+<div class="mb-md">
+<span class="font-label-caps text-label-caps text-primary">Emergency Config</span>
+<h3 class="font-headline-sm text-headline-sm">Threshold Alerts</h3>
+</div>
+<form class="space-y-md">
+<div class="space-y-xs">
+<label class="font-label-caps text-label-caps text-on-surface-variant">Metric Selector</label>
+<select class="w-full bg-surface-bright border border-outline-variant rounded p-sm focus:ring-1 focus:ring-secondary focus:border-secondary font-body-sm">
+<option>Soil Moisture (%)</option>
+<option>Ambient Temp (°C)</option>
+<option>Wind Speed (km/h)</option>
+<option>UV Intensity</option>
+</select>
+</div>
+<div class="space-y-xs">
+<label class="font-label-caps text-label-caps text-on-surface-variant">Trigger Condition</label>
+<div class="flex items-center gap-base">
+<div class="flex items-center gap-xs flex-1">
+<span class="font-body-sm">Falls below</span>
+<div class="flex items-center border border-outline-variant rounded overflow-hidden flex-grow">
+<button class="px-base py-xs bg-surface-container border-r border-outline-variant hover:bg-outline-variant transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]" data-icon="remove">remove</span>
+</button>
+<input class="w-full border-none focus:ring-0 text-center font-data-mono text-data-mono py-xs" type="text" value="25">
+<button class="px-base py-xs bg-surface-container border-l border-outline-variant hover:bg-outline-variant transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]" data-icon="add">add</span>
+</button>
+</div>
+<span class="font-body-sm">%</span>
+</div>
+</div>
+</div>
+<div class="space-y-xs">
+<label class="font-label-caps text-label-caps text-on-surface-variant">SMS Notification Recipients</label>
+<div class="space-y-xs">
+<div class="flex items-center gap-sm p-sm bg-surface-container rounded border border-outline-variant">
+<span class="material-symbols-outlined text-outline" data-icon="person">person</span>
+<span class="font-body-sm flex-grow">Farm Manager (Main)</span>
+<span class="font-data-mono text-[12px]">+1 (555) 012-3456</span>
+</div>
+<div class="flex items-center gap-sm p-sm bg-surface-container rounded border border-outline-variant">
+<span class="material-symbols-outlined text-outline" data-icon="person">person</span>
+<span class="font-body-sm flex-grow">Field Tech 02</span>
+<span class="font-data-mono text-[12px]">+1 (555) 098-7654</span>
+</div>
+</div>
+<button class="text-secondary font-label-caps text-label-caps flex items-center gap-xs mt-xs" type="button">
+<span class="material-symbols-outlined text-[16px]" data-icon="add">add</span>
+                                    Add Recipient
+                                </button>
+</div>
+<button class="w-full py-base bg-primary text-on-primary font-label-caps text-label-caps rounded shadow-md hover:bg-primary-container transition-colors flex items-center justify-center gap-sm" type="submit">
+<span class="material-symbols-outlined text-[20px]" data-icon="save">save</span>
+                                Activate Threshold Alert
+                            </button>
+</form>
+</div>
+</section>
+</div>
+<!-- Footer Meta Info -->
+<footer class="flex flex-col md:flex-row justify-between items-center pt-lg border-t border-outline-variant gap-md opacity-60">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-outline" data-icon="sync">sync</span>
+<span class="font-label-caps text-[10px]">SYSTEMS SYNCHRONIZED: 12:44:02 PM</span>
+</div>
+<div class="flex gap-md">
+<a class="font-label-caps text-[10px] hover:text-primary transition-colors" href="automated_controls.html">Automation LOGS</a>
+<a class="font-label-caps text-[10px] hover:text-primary transition-colors" href="#">DEVICE HEALTH</a>
+<a class="font-label-caps text-[10px] hover:text-primary transition-colors" href="#">API ACCESS</a>
+</div>
+</footer>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 flex justify-around items-center h-16 bg-surface shadow-md border-t border-outline-variant rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container transition-colors" href="index.html">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-caps text-[10px]">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container transition-colors" href="field_monitoring.html">
+<span class="material-symbols-outlined" data-icon="agriculture">agriculture</span>
+<span class="font-label-caps text-[10px]">Fields</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary font-bold active:scale-90 transition-transform" href="automated_controls.html">
+<span class="material-symbols-outlined" data-icon="bolt" data-weight="fill">bolt</span>
+<span class="font-label-caps text-[10px]">Actions</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container transition-colors" href="analytics_reports.html">
+<span class="material-symbols-outlined" data-icon="assessment">assessment</span>
+<span class="font-label-caps text-[10px]">Reports</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container transition-colors" href="farm_settings.html">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-caps text-[10px]">Settings</span>
+</a>
+</nav>
+<!-- Floating Action Button (Only on Mobile Dashboard/Home context) -->
+<button class="md:hidden fixed bottom-20 right-margin-mobile w-14 h-14 bg-primary text-on-primary rounded-full shadow-lg flex items-center justify-center z-40">
+<span class="material-symbols-outlined" data-icon="bolt">bolt</span>
+</button>
+</body></html>
